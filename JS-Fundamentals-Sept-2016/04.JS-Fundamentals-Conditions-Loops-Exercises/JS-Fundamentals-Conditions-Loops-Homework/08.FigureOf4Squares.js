@@ -12,6 +12,11 @@ function figureOfFourSquares(input) {
         console.log("+" + "-".repeat(n - 2) + "+" + "-".repeat(n - 2) + "+");
     }
     else {
+        if(n==2) {
+            console.log("+++");
+
+        }
+        else{
         console.log("+" + "-".repeat(n - 2) + "+" + "-".repeat(n - 2) + "+");
         for (let row = 0; row < (n - 4) / 2; row++) {
             console.log("|" + " ".repeat(n - 2) + "|" + " ".repeat(n - 2) + "|");
@@ -21,7 +26,8 @@ function figureOfFourSquares(input) {
             console.log("|" + " ".repeat(n - 2) + "|" + " ".repeat(n - 2) + "|");
         }
         console.log("+" + "-".repeat(n - 2) + "+" + "-".repeat(n - 2) + "+");
+        }
     }
 }
 
-figureOfFourSquares(['4']);
+figureOfFourSquares(['2']);
