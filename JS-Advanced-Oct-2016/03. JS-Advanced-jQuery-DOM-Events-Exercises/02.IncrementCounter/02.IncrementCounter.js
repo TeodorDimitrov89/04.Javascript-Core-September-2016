@@ -31,11 +31,6 @@ function increment(selector) {
         list.append(li);
     });
 
-    // textArea.appendTo('#wrapper');
-    // incrementBtn.appendTo('#wrapper');
-    // addBtn.appendTo('#wrapper');
-    // list.appendTo('#wrapper');
-
     textArea.appendTo(fragment);
     incrementBtn.appendTo(fragment);
     addBtn.appendTo(fragment);

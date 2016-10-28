@@ -1,85 +1,88 @@
-function calendar(input) {
-    let content = $('#content');
-    let day = Number(input[0]);
-    let month = Number(input[1]);
-    let year = Number(input[2]);
-
-    function generateCalendar() {
-        let table = $(`<table><caption>${findFullMonth()} ${input[2]}</caption><tbody><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></tbody>`);
-        let days = fillDayWeek();
-        content.append(table);
-        table.append(days)
+function calendar([day, month, year]) {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const shortMonthNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    month = month - 1;
+ 
+    let container = $('#content');
+    let date = new Date();
+    date.setFullYear(year, month);
+    date.setDate(1);
+    let table = $('<table></table>');
+    let tBody = $('<tbody></tbody>');
+ 
+    //
+    // table header
+    //
+ 
+    $(`<caption>${monthNames[date.getMonth()]} ${date.getFullYear()}</caption>`).appendTo(table);
+    let trHeaders = $('<tr></tr>');
+    shortMonthNames.forEach(dayOfWeek => {
+        $(`<th>${dayOfWeek}</th>`).appendTo(trHeaders);
+    });
+    trHeaders.appendTo(table);
+ 
+    //
+    // table body
+    //
+ 
+    // empty days on the front
+    let emptyCellsToAdd = date.getDay() == 0 ? 6 : date.getDay() - 1;
+    let emptyTrFront = $('<tr></tr>');
+    for (let i = 0; i < emptyCellsToAdd; i++) {
+ 
+        $('<td></td>').appendTo(emptyTrFront);
     }
-    generateCalendar(content);
-
-    function fillDayWeek() {
-        day = Number(input[0]);
-        month = Number(input[1]-1);
-        year = Number(input[2]);
-
-        let html="";
-        let today =  new Date(year, month - 1, day);
-        let firstDay = new Date(year, month - 1, 1);
-        let firstDateOfCalendar = new Date(firstDay);
-        firstDateOfCalendar.setDate(firstDateOfCalendar.getDate() - firstDateOfCalendar.getDay());
-        let lastDateOfCalendar = new Date(firstDay);
-        lastDateOfCalendar.setMonth(lastDateOfCalendar.getMonth() + 1);
-        lastDateOfCalendar.setDate(0);
-        lastDateOfCalendar.setDate(lastDateOfCalendar.getDate() + 6 - lastDateOfCalendar.getDay());
-
-
-        for (let i = firstDateOfCalendar; i <= lastDateOfCalendar; i.setDate(i.getDate() + 1)) {
-            if (i.getDay() == 0) {
-                html += "  <tr>"
-            }
-            if (i.getFullYear() < firstDay.getFullYear() ||
-                (i.getMonth() < firstDay.getMonth())) {
-                html += `<td></td>`;
-            }
-            else if (i.getFullYear() > firstDay.getFullYear() ||
-                (i.getMonth() > firstDay.getMonth() && i.getFullYear() == firstDay.getFullYear())) {
-                html += `<td></td>`;
-
-            }
-            else if (i.getTime() == today.getTime()) {
-                html += `<td class="today">${i.getDate()}</td>`;
-            }
-            else {
-                html += `<td>${i.getDate()}</td>`;
-            }
-
-            if (i.getDay() == 6) {
-                html += "</tr>\n"
-            }
+   
+   
+    //IF CLAUSE ADDED! ONLY IF EMPTY CELLS !=0 ADD <tr>
+    if (emptyCellsToAdd!=0) {
+        for (let i = 0; i < 7-emptyCellsToAdd; i++) {
+           
+            //CHECK IF TODAY! OTHERWISE IF TODAY IS ON THE FIRST ROW, IT DOES NOT GET CLASS="TODAY"
+            if (date.getDate() == day)
+                $(`<td class="today">${date.getDate()}</td>`).appendTo(emptyTrFront);
+            else
+                $(`<td>${date.getDate()}</td>`).appendTo(emptyTrFront);
+ 
+ 
+            date.setDate(date.getDate() + 1);
         }
-        return html;
+        emptyTrFront.appendTo(tBody);
     }
-    function findFullMonth() {
-        switch(month) {
-            case 1:
-                return month = "January";
-            case 2:
-                return month = "February";
-            case 3:
-                return month = "March";
-            case 4:
-                return month = "April";
-            case 5:
-                return month = "May";
-            case 6:
-                return month = "June";
-            case 7:
-                return month = "July";
-            case 8:
-                return month = "August";
-            case 9:
-                return month = "September";
-            case 10:
-                return month = "October";
-            case 11:
-                return month = "November";
-            case 12:
-                return month = "December";
+ 
+ 
+    // cells with dates
+    let trMonthDays = $('<tr></tr>');
+    let index = 0;
+    while (date.getMonth() == month) {
+        // create new row
+       
+       
+        //ADDED ANOTHER CHECK. IF INDEX IS 0 DO NOT APPEND EMPTY ROW!
+        if (index % 7 == 0 && index!=0) {
+            trMonthDays.appendTo(tBody);
+            trMonthDays = $('<tr></tr>');
+ 
+        }
+        if (date.getDate() == day)
+            $(`<td class="today">${date.getDate()}</td>`).appendTo(trMonthDays);
+        else
+            $(`<td>${date.getDate()}</td>`).appendTo(trMonthDays);
+        // step
+        date.setDate(date.getDate() + 1);
+        index++;
+    }
+    date.setDate(date.getDate() - 1);
+ 
+    // empty days on the back
+    if (date.getDay() != 0) {
+        for (let i = 0; i < 7 - date.getDay(); i++) {
+            $('<td></td>').appendTo(trMonthDays);
         }
     }
+    trMonthDays.appendTo(tBody);
+    tBody.appendTo(table);
+    table.appendTo(container);
 }
