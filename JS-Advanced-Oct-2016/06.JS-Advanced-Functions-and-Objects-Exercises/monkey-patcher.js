@@ -1,55 +1,58 @@
-function solve(input) {
-    switch(input) {
-        case "upvote": this.upvotes += 1;break;
-        case "downvote":this.downvotes += 1;break;
+function solve() {
+    switch (arguments[0]) {
+        case "upvote":
+            this.upvotes += 1;
+            break;
+        case "downvote":
+            this.downvotes += 1;
+            break;
         case "score":
             return score(this);
             break;
     }
 
     function score(obj) {
-        let modifier=0;
-        let score =obj.upvotes - obj.downvotes;
-        if(obj.upvotes + obj.downvotes > 50) {
-            modifier = Math.ceil(Math.max(obj.upvotes,obj.downvotes)*0.25)
+        let resultReport = [];
+        let _that = obj;
+        let modified = 0;
+        let rating = '';
+        let upvotes = Number(_that.upvotes);
+        let downvotes = Number(_that.downvotes);
+        if (upvotes + downvotes > 50) {
+            modified = Math.ceil(Math.max(upvotes, downvotes) * 0.25)
         }
-        let rating ='';
-        if(score<0) {
-
-        }
-        else if(obj.upvotes>100) {
-
-        }
-        else if(obj.upvotes/(obj.upvotes+obj.downvotes)>0.66) {
-
+        if (upvotes + downvotes >= 10) {
+            if (upvotes / (upvotes + downvotes) > 0.66) {
+                rating = 'hot';
+            }
+            else if (upvotes > 100) {
+                rating = 'controversial';
+            }
+            else if (upvotes - downvotes < 0) {
+                rating = 'unpopular';
+            }
+            else {
+                rating = 'new';
+            }
         }
         else {
-
+            rating = 'new';
         }
-        return [obj.upvotes + modifier, obj.downvotes + modifier,score,rating];
-
+        resultReport.push(upvotes + modified);
+        resultReport.push(downvotes + modified);
+        resultReport.push(upvotes - downvotes);
+        resultReport.push(rating);
+        return resultReport
     }
 }
 
-// let post = {
-//     id: '3',
-//     author: 'emil',
-//     content: 'wazaaaaa',
-//     upvotes: 100,
-//     downvotes: 100
-// };
-
-
-let p = {
+let obj = {
     id: '3',
     author: 'emil',
     content: 'wazaaaaa',
     upvotes: 100,
     downvotes: 100
 };
-solve.call(p,'upvote');
-solve.call(p,'downvote');
-console.log(solve.call(p,'score'));
-
-
-
+solve.call(obj, 'upvote');
+solve.call(obj, 'downvote');
+console.log(solve.call(obj, 'score'));
