@@ -1,7 +1,7 @@
 let expect = require("chai").expect;
 let createCalculator = require("../Add-Subtract").createCalculator;
 describe("createCalculator", function () {
-    let calc={};
+    let calc = {};
     beforeEach('Init a createCalculator instance',function () {
         calc = createCalculator();
     });

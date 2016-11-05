@@ -1,33 +1,41 @@
 class Rat {
     constructor(name) {
         this.name = name;
-        this.ratsArray = [];
+        this.arrayRat = [];
     }
-    unite(givenObject) {
+    unite(otherRat) {
         //проверявам дали обекта който ми е даден е с еднакъв клас на този който съм създал
         //instanceof
-        if(givenObject instanceof Rat) {
-            this.ratsArray.push(givenObject);
+        if(otherRat instanceof Rat) {
+            this.arrayRat.push(otherRat);
         }
     }
     getRats() {
-        return this.ratsArray;
+        return this.arrayRat
     }
     toString() {
-        let str = '';
-
-        for (let rat of this.ratsArray) {
-            console.log(rat);
-            // this.ratsArray.map(.join('##')
+        let rat = '';
+        rat+=`${this.name}\n`;
+        for (let r of this.arrayRat) {
+            rat+=`##${r.name}\n`
         }
-        return this.ratsArray.join(',');
+        return rat;
     }
 }
-let rat = new Rat('Pesho');
-let rat1 = new Rat('Pesho');
-(rat.unite(rat1));
-(rat.getRats());
-(rat.toString());
-// console.log(rat.unite(rat1));
-// console.log(rat.getRats());
-// console.log(rat.toString());
+
+
+let test = new Rat("Pesho");
+console.log(test.toString()); //Pesho
+
+console.log(test.getRats()); //[]
+
+test.unite(new Rat("Gosho"));
+test.unite(new Rat("Sasho"));
+console.log(test.getRats());
+//[ Rat { name: 'Gosho', unitedRats: [] },
+//  Rat { name: 'Sasho', unitedRats: [] } ]
+
+console.log(test.toString());
+// Pesho
+// ##Gosho
+// ##Sasho
