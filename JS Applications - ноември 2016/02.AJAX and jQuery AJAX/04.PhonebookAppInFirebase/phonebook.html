@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<h1>Phonebook</h1>
+<ul id="phonebook"></ul>
+<button id="btnLoad">Load</button>
+<h2>Create Contact</h2>
+Person: <input type="text" id="person"/>
+<br>
+Phone: <input type="text" id="phone"/>
+<br>
+<button id="btnCreate">Create</button>
+
+<script>
+    $(function () {
+        $("#btnLoad").on('click',loadContact);
+        $("#btnCreate").on('click',createContact);
+        let baseServiceUrl = ' https://phonebook-444e5.firebaseio.com/';
+
+        function loadContact() {
+            $("#phonebook").empty();
+
+            $.get(baseServiceUrl+".json")
+                    .then(displayContacts)
+                    .catch(displayError);
+        }
+        function displayContacts(contacts) {
+            for (let k in contacts) {
+                let person = contacts[k]['person'];
+                let phone = contacts[k]['phone'];
+                let li = $('<li>');
+                li.text(person + ': ' + phone+' ');
+                $("#phonebook").append(li);
+                li.append($('<a href="#">[Delete]</a>')
+                        .click(function(){deleteContact(k)}));
+
+            }
+        }
+        function displayError(err) {
+            $("#phonebook").append($('<li>Error</li>'));
+        }
+
+        function createContact() {
+            let newContactJSON = JSON.stringify({
+                person: $('#person').val(),
+                phone: $('#phone').val()
+            });
+            $.post(baseServiceUrl + '.json', newContactJSON)
+                    .then(loadContacts)
+                    .catch(displayError);
+            $('#person').val('');
+            $('#phone').val('');
+        }
+        function deleteContact(key) {
+            let request = {
+                method:"DELETE",
+                url:baseServiceUrl+ '/' + key + '.json'
+            };
+            $.ajax(request)
+                    .then(loadContact)
+                    .catch(displayError)
+
+        }
+
+
+
+    });
+</script>
+
+</body>
+</html>
