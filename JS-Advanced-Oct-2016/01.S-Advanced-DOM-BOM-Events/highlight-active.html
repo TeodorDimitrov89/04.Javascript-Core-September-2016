@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Focus</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+  <style>
+    div {
+      width: 470px;
+    }
+
+    div div {
+      text-align: center;
+      display: inline-block;
+      width: 200px;
+      height: 200px;
+      margin: 15px;
+      border: 1px solid #999;
+    }
+
+    .focused {
+      background: #999999;
+    }
+  </style>
+</head>
+
+<body onload="focus()">
+  <div>
+    <div>
+      <h1>Section 1</h1><input type="text" /></div>
+    <div>
+      <h1>Section 2</h1><input type="text" /></div>
+    <div>
+      <h1>Section 3</h1><input type="text" /></div>
+    <div>
+      <h1>Section 4</h1><input type="text" /></div>
+  </div>
+  <script>
+    function focus() {
+      $('input').blur(() => {
+        $('input').parent().removeClass('focused')
+      }).focus(function () {
+
+        $(this).parent().addClass('focused')
+      })
+    }
+  </script>
+</body>
+
+</html>

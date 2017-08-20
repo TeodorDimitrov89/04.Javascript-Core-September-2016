@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Focus</title>
+    <style>
+      .error {
+        border: 2px solid red;
+      }
+    </style>
+  </head>
+
+  <body onload="validate()">
+    <label for="email">Enter email:</label>
+    <input id="email" type="text" />
+    <script>
+      function validate() {
+        let email = $('#email')
+        email.on('change', function () {
+          let inputText = email.val()
+          let pattern = /^[a-z]+@[a-z]+\.[a-z]+$/g
+          if (!pattern.test(inputText)) {
+            email.addClass('error')
+          } else {
+            email.removeClass('error')
+          }
+        })
+      }
+    </script>
+  </body>
+
+  </html>
+</body>
+
+</html>
