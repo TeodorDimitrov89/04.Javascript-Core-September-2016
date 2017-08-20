@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sections</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="dropdown.js"></script>
+    <style>
+        #content {
+            width: 1000px;
+        }
+        #content div {
+            float: left;
+            width: 300px;
+            height: 300px;
+            margin: 2em;
+            background: #5555ff;
+            text-align: center;
+        }
+        #content div p {
+            color: white;
+            margin: 6em 3em 6em 3em;
+        }
+    </style>
+</head>
+<div id="content">
+</div>
+<body onload="create(['Section 1', 'Section 2', 'Section 3', 'Section 4']);">
+<script>
+  function create(sentences) {
+    let wrapper = $('#content')
+    for (let section of sentences) {
+      let div = $('<div>')
+      let paragraph = $('<p>')
+      paragraph.css('display', 'none')
+      paragraph.append(section)
+      div.click(showHiddenText)
+      div.append(paragraph)
+      wrapper.append(div)
+    }
+    function showHiddenText() {
+      $(this).children().css('display','block')
+    }
+  }
+</script>
+</body>
+</html>
